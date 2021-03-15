@@ -98,12 +98,12 @@ export default function DualList(props: DualListProps) {
 
   return (
     <Box border={1} borderColor="divider">
-      <Box display="flex" flexDirection="row" bgcolor="action.hover" p={1}>
+      <Box display="flex" flexDirection="row" alignItems="center" bgcolor="action.hover" p={1}>
         <Box flexGrow={1}>
           <Typography variant="body1" color="textPrimary">{props.title}</Typography>
         </Box>
         <Box pr={1}>
-          <IconButton onClick={toggleSearch} color={searchFlag ? "primary" : "default"}>
+          <IconButton size="small" onClick={toggleSearch} color={searchFlag ? "primary" : "default"}>
             {props.searchIcon}
           </IconButton>
         </Box>
