@@ -12,11 +12,13 @@ import { IItem } from "./IItem";
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     list: {
+      padding: 0,
       height: 200,
       overflow: "auto"
     },
     listSubHeader: {
-      padding: 0,
+      padding: 3,
+      minHeight: 0,
       fontSize: "small",
       fontWeight: "bold",
       textAlign: "center",
