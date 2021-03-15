@@ -14,11 +14,28 @@ import { DrawList } from "./DrawList";
 import { Typography } from '@material-ui/core';
 
 
+function getItems(list: Array<IItem>, selectedList: Array<number>, search: string, selected: boolean) {
+
+  let data = [...list];
+
+
+  if (search.trim().length > 0) {
+    data = list.filter(item => item.text.search(search) !== -1);
+  }
+
+  if (selected) {
+    return data.filter(item => selectedList.indexOf(item.value) !== -1)
+  } else {
+    return data.filter(item => selectedList.indexOf(item.value) !== -1)
+  }
+
+}
+
 export type DualListProps = {
   title: string,
   searchPlaceholder: string,
   searchIcon: any,
-  selectedList: Array<IItem>,
+  selectedList: Array<number>,
   sourceList: Array<IItem>,
   onChange: any,
   sourceListTitle: string,
@@ -41,7 +58,7 @@ DualList.propTypes = {
 };
 DualList.defaultProps = {
   title: "",
-  searchPlaceholder: PropTypes.string,
+  searchPlaceholder: "search item",
   searchIcon: "S",
   selectedList: [],
   sourceList: [],
@@ -71,30 +88,23 @@ export default function DualList(props: DualListProps) {
     setState({ ...state, ...newState });
   }
   function moveToSelectedList(item: IItem) {
-    let source = state.sourceList.filter(item => item.value !== item.value);
-    let selected = [item, ...state.selectedList];
-    state.selectedList = selected;
-    state.sourceList = source;
+    state.selectedList.push(item.value);
     refresh(state);
   }
   function moveToSourceList(item: IItem) {
-    // state.sourceList.push(item)
-    // state.selectedList = state.selectedList.filter(item => item.value !== item.value);
-    let source = [item, ...state.sourceList];
-    let selected = state.selectedList.filter(item => item.value !== item.value);
-    state.selectedList = selected;
-    state.sourceList = source;
+    let index = state.selectedList.indexOf(item.value);
+    if (index !== -1) {
+      state.selectedList.slice(index, 1);
+    }
     refresh(state);
 
   }
   function unselectAll() {
-    state.sourceList = [...state.sourceList, ...state.selectedList];
     state.selectedList = [];
     refresh(state);
   }
   function selectAll() {
-    state.selectedList = [...state.sourceList, ...state.selectedList];
-    state.sourceList = [];
+    state.selectedList = state.sourceList.map(item => item.value);
     refresh(state);
   }
 
@@ -135,7 +145,7 @@ export default function DualList(props: DualListProps) {
             <Typography align="center">{props.sourceListTitle}</Typography>
           </Box>
           <DrawList
-            list={state.sourceList.filter(item => item.text.search(search) !== -1)}
+            list={getItems(props.sourceList, state.selectedList, search, false)}
             moveOne={moveToSelectedList}
             title={props.sourceListTitle} />
         </Box>
@@ -144,7 +154,7 @@ export default function DualList(props: DualListProps) {
             <Typography align="center">{props.selectedListTitle}</Typography>
           </Box>
           <DrawList
-            list={state.selectedList.filter(item => item.text.search(search) !== -1)}
+            list={getItems(props.sourceList, state.selectedList, search, true)}
             moveOne={moveToSourceList}
             title={props.selectedListTitle} />
         </Box>
