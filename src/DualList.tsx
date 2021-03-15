@@ -12,16 +12,43 @@ import {
   Badge,
   Button,
   ButtonGroup,
-  TextField
+  TextField,
+  Box,
+  CardActions
 } from "@material-ui/core";
 
-import { createStyles, makeStyles } from '@material-ui/core/styles';
+import { createStyles, makeStyles , Theme } from '@material-ui/core/styles';
 
-const useStyles = makeStyles(() =>
+const useStyles = makeStyles((theme : Theme) =>
   createStyles({
       root: {
-        minHeight : 200,
     },
+    list: {
+      height: 200,
+      overflow  : "auto"
+    },
+    cardHeader: {
+      margin: 0,
+      padding: 5,
+      paddingBottom : 0,
+      backgroundColor : theme.palette.action.hover
+    },
+    cardContent: {
+      margin: 0,
+      padding : 0,
+    },
+    listItem: {
+      cursor : "pointer"
+    },
+    listSubHeader: {
+      fontSize: "small",
+      fontWeight: "bold",
+      textAlign :"center",
+       backgroundColor : theme.palette.action.hover
+    },
+    listItemPrimaryText: {
+      fontSize : "small"
+    }
   }),
 );
 
@@ -88,12 +115,12 @@ export default function DualList(props :DualListProps ) {
   function moveToSelectedList (item: IItem) {
 
     state.sourceList = state.sourceList.filter(item => item.value !== item.value);
-    state.selectedList.unshift(item);
+    state.selectedList.push(item);
     refresh(state);
    }
   function moveToSourceList (item: IItem) {
 
-    state.sourceList.unshift(item)
+    state.sourceList.push(item)
     state.selectedList = state.selectedList.filter(item => item.value !== item.value);
     refresh(state);
 
@@ -115,48 +142,53 @@ export default function DualList(props :DualListProps ) {
     return (
       <Card className={classes.root}>
         <CardHeader
-        {...props}
-        action={
-          <Badge badgeContent={state.selectedList.length} color="primary" />
+          {...props}
+          className={classes.cardHeader}
+          action={
+          <Box p={1}>
+            <Badge badgeContent={state.selectedList.length} color="primary" />
+          </Box>
         }
           subheader={
             <TextField
-              variant="standard"
-              value={search}
-              onChange={e=>setSearch(e.target.value)}
-              placeholder={props.searchPlaceholder}
-            />
+                size="small"
+                fullWidth
+                variant="standard"
+                value={search}
+                onChange={e=>setSearch(e.target.value)}
+                placeholder={props.searchPlaceholder}
+              />
           }
           subheaderTypographyProps={{
             style : {padding : 2}
           }}
       />
-        <CardContent>
-            <Grid container direction="column">
-              <Grid item>
-              <DrawList
-                list={props.sourceList}
-                moveOne={moveToSelectedList}
-                title={props.sourceListTitle} />
-            </Grid>
-            <Grid item>
-              <ButtonGroup fullWidth variant="text" color="default" >
-                <Button onClick={unselectAll}>
-                  {props.buttonUnselectAllText}
-                </Button>
-                <Button onClick={selectAll}>
-                  {props.buttonSelectAllText}
-                </Button>
-              </ButtonGroup>
-            </Grid>
-              <Grid item>
-              <DrawList
-                list={props.selectedList}
-                moveOne={moveToSourceList}
-                title={props.selectedListTitle} />
+        <CardContent className={classes.cardContent}>
+            <Grid container direction="row">
+              <Grid xs={12} sm={6} item>
+                <DrawList
+                  list={state.sourceList}
+                  moveOne={moveToSelectedList}
+                  title={props.sourceListTitle} />
+              </Grid>
+              <Grid xs={12} sm={6} item>
+                <DrawList
+                  list={state.selectedList}
+                  moveOne={moveToSourceList}
+                  title={props.selectedListTitle} />
               </Grid>
             </Grid>
         </CardContent>
+        <CardActions>
+                <ButtonGroup fullWidth variant="text" color="default" size="small">
+                  <Button onClick={unselectAll}>
+                    {props.buttonUnselectAllText}
+                  </Button>
+                  <Button onClick={selectAll}>
+                    {props.buttonSelectAllText}
+                  </Button>
+                </ButtonGroup>
+        </CardActions>
         </Card>
     );
 }
@@ -170,13 +202,20 @@ type DrawListProps = {
 
 function DrawList(props : DrawListProps) {
 
+  const classes = useStyles();
+
   return (
-    <List>
-      <ListSubheader>{props.title}</ListSubheader>
+    <List dense className={classes.list}>
+      <ListSubheader className={classes.listSubHeader}>{props.title}</ListSubheader>
       {
         props.list.map((item, index) => (
-          <ListItem key={"item_i_" + index}>
-              <ListItemText primary={item.text} onClick={()=>props.moveOne(item)} />
+          <ListItem key={"item_i_" + index} className={classes.listItem}>
+            <ListItemText
+              primary={item.text}
+              primaryTypographyProps={{
+                className:classes.listItemPrimaryText
+              }}
+              onClick={() => props.moveOne(item)} />
           </ListItem>
         ))
       }
