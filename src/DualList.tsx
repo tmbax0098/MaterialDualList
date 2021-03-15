@@ -93,7 +93,7 @@ export default function DualList(props: DualListProps) {
   React.useEffect(emitChange, [state]);
 
   return (
-    <Box>
+    <Box border={1} borderColor="divider">
       <Box display="flex" flexDirection="row" bgcolor="action.hover" p={1}>
         <Box flexGrow={1}>
           <Typography variant="body1" color="textPrimary">{props.title}</Typography>
@@ -112,7 +112,7 @@ export default function DualList(props: DualListProps) {
           placeholder={props.searchPlaceholder}
         />
       </Box>
-      <Box>
+      <Box display="flex" flexDirection="row">
         <Box width={1 / 2}>
           <DrawList
             list={state.sourceList}
