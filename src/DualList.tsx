@@ -98,15 +98,15 @@ export default function DualList(props: DualListProps) {
         <Box flexGrow={1}>
           <Typography variant="body1" color="textPrimary">{props.title}</Typography>
         </Box>
-        <Box>
+        <Box minWidth={50}>
           <Badge badgeContent={state.selectedList.length} color="primary" />
         </Box>
       </Box>
-      <Box pl={1} pr={1}>
+      <Box pl={1} pr={1} pt={1} bgcolor="action.hover">
         <TextField
           size="small"
           fullWidth
-          variant="standard"
+          variant="filled"
           value={search}
           onChange={e => setSearch(e.target.value)}
           placeholder={props.searchPlaceholder}
