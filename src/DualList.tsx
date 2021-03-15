@@ -123,12 +123,18 @@ export default function DualList(props: DualListProps) {
       </Box>
       <Box display="flex" flexDirection="row">
         <Box width={1 / 2}>
+          <Box display="flex" justifyContent="center" bgcolor="action.hover">
+            <Typography align="center">{props.sourceListTitle}</Typography>
+          </Box>
           <DrawList
             list={state.sourceList}
             moveOne={moveToSelectedList}
             title={props.sourceListTitle} />
         </Box>
         <Box width={1 / 2}>
+          <Box display="flex" justifyContent="center" bgcolor="action.hover">
+            <Typography align="center">{props.selectedListTitle}</Typography>
+          </Box>
           <DrawList
             list={state.selectedList}
             moveOne={moveToSourceList}

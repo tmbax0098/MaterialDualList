@@ -2,8 +2,7 @@ import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import {
-  List,
-  ListSubheader
+  List
 } from "@material-ui/core";
 import { Item } from "./Item"
 import { IItem } from "./IItem";
@@ -39,7 +38,7 @@ export function DrawList(props: DrawListProps) {
 
   return (
     <List dense className={classes.list}>
-      <ListSubheader className={classes.listSubHeader}>{props.title}</ListSubheader>
+      {/* <ListSubheader className={classes.listSubHeader}>{props.title}</ListSubheader> */}
       {
         props.list.map((item, index) => (
           <Item key={"item_i_" + index} onClick={() => props.moveOne(item)} text={item.text} />
