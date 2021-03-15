@@ -71,15 +71,19 @@ export default function DualList(props: DualListProps) {
     setState({ ...state, ...newState });
   }
   function moveToSelectedList(item: IItem) {
-
-    state.sourceList = state.sourceList.filter(item => item.value !== item.value);
-    state.selectedList.push(item);
+    let source = state.sourceList.filter(item => item.value !== item.value);
+    let selected = [item, ...state.selectedList];
+    state.selectedList = selected;
+    state.sourceList = source;
     refresh(state);
   }
   function moveToSourceList(item: IItem) {
-
-    state.sourceList.push(item)
-    state.selectedList = state.selectedList.filter(item => item.value !== item.value);
+    // state.sourceList.push(item)
+    // state.selectedList = state.selectedList.filter(item => item.value !== item.value);
+    let source = [item, ...state.sourceList];
+    let selected = state.selectedList.filter(item => item.value !== item.value);
+    state.selectedList = selected;
+    state.sourceList = source;
     refresh(state);
 
   }
@@ -131,7 +135,7 @@ export default function DualList(props: DualListProps) {
             <Typography align="center">{props.sourceListTitle}</Typography>
           </Box>
           <DrawList
-            list={state.sourceList}
+            list={state.sourceList.filter(item => item.text.search(search) !== -1)}
             moveOne={moveToSelectedList}
             title={props.sourceListTitle} />
         </Box>
@@ -140,7 +144,7 @@ export default function DualList(props: DualListProps) {
             <Typography align="center">{props.selectedListTitle}</Typography>
           </Box>
           <DrawList
-            list={state.selectedList}
+            list={state.selectedList.filter(item => item.text.search(search) !== -1)}
             moveOne={moveToSourceList}
             title={props.selectedListTitle} />
         </Box>
