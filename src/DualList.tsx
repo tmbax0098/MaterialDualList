@@ -5,7 +5,8 @@ import {
   Button,
   ButtonGroup,
   TextField,
-  Box
+  Box,
+  IconButton
 } from "@material-ui/core";
 import { IItem } from "./IItem";
 import { DrawList } from "./DrawList";
@@ -15,7 +16,7 @@ import { Typography } from '@material-ui/core';
 export type DualListProps = {
   title: string,
   searchPlaceholder: string,
-  avatar: any,
+  searchIcon: any,
   selectedList: Array<IItem>,
   sourceList: Array<IItem>,
   onChange: any,
@@ -28,7 +29,7 @@ export type DualListProps = {
 DualList.propTypes = {
   title: PropTypes.string,
   searchPlaceholder: PropTypes.string,
-  avatar: PropTypes.any,
+  searchIcon: PropTypes.any,
   selectedList: PropTypes.array,
   sourceList: PropTypes.array,
   onChange: PropTypes.func,
@@ -40,7 +41,7 @@ DualList.propTypes = {
 DualList.defaultProps = {
   title: "",
   searchPlaceholder: PropTypes.string,
-  avatar: null,
+  searchIcon: "S",
   selectedList: [],
   sourceList: [],
   onChange: () => [],
@@ -53,7 +54,10 @@ DualList.defaultProps = {
 export default function DualList(props: DualListProps) {
 
   const [state, setState] = React.useState({ ...props });
-  const [search, setSearch] = React.useState("")
+  const [search, setSearch] = React.useState("");
+  const [searchFlag, setSearchFlag] = React.useState(false);
+
+  const toggleSearch = () => setSearchFlag(!searchFlag);
 
   function emitChange() {
     if (JSON.stringify(state.selectedList) !== JSON.stringify(props.selectedList)) {
@@ -98,11 +102,16 @@ export default function DualList(props: DualListProps) {
         <Box flexGrow={1}>
           <Typography variant="body1" color="textPrimary">{props.title}</Typography>
         </Box>
-        <Box minWidth={50}>
+        <Box pr={1}>
+          <IconButton onClick={toggleSearch} color={searchFlag ? "primary" : "default"}>
+            {props.searchIcon}
+          </IconButton>
+        </Box>
+        <Box pr={1}>
           <Badge badgeContent={state.selectedList.length} color="primary" />
         </Box>
       </Box>
-      <Box pl={1} pr={1} pt={1} bgcolor="action.hover">
+      <Box pl={1} pr={1} pt={1} bgcolor="action.hover" hidden={!searchFlag}>
         <TextField
           size="small"
           fullWidth
@@ -126,7 +135,7 @@ export default function DualList(props: DualListProps) {
             title={props.selectedListTitle} />
         </Box>
       </Box>
-      <Box bgcolor="action.hover">
+      <Box bgcolor="action.hover" borderTop={1} borderColor="divider">
         <ButtonGroup fullWidth variant="text" color="default" size="small">
           <Button onClick={unselectAll}>
             {props.buttonUnselectAllText}

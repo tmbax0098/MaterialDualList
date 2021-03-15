@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme: Theme) =>
       overflow: "auto"
     },
     listSubHeader: {
-      padding: 5,
+      padding: 0,
       fontSize: "small",
       fontWeight: "bold",
       textAlign: "center",
