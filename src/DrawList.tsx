@@ -38,7 +38,6 @@ export function DrawList(props: DrawListProps) {
 
   return (
     <List dense className={classes.list}>
-      {/* <ListSubheader className={classes.listSubHeader}>{props.title}</ListSubheader> */}
       {
         props.list.map((item, index) => (
           <Item key={"item_i_" + index} onClick={() => props.moveOne(item)} text={item.text} />

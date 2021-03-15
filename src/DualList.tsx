@@ -6,7 +6,8 @@ import {
   TextField,
   Box,
   IconButton,
-  Collapse
+  Collapse,
+  Chip
 } from "@material-ui/core";
 import { IItem } from "./IItem";
 import { DrawList } from "./DrawList";
@@ -103,9 +104,7 @@ export default function DualList(props: DualListProps) {
           <Typography variant="body1" color="textPrimary">{props.title}</Typography>
         </Box>
         <Box pr={1}>
-          <Button color="primary" style={{ paddingLeft: 5, paddingRight: 5 }}>
-            {state.selectedList.length}
-          </Button>
+          <Chip color="primary" label={state.selectedList.length} />
         </Box>
         <Box pr={1}>
           <IconButton size="small" onClick={toggleSearch} color={searchFlag ? "primary" : "default"}>
