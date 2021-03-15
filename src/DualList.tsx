@@ -1,12 +1,12 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
 import {
-  Badge,
   Button,
   ButtonGroup,
   TextField,
   Box,
-  IconButton
+  IconButton,
+  Collapse
 } from "@material-ui/core";
 import { IItem } from "./IItem";
 import { DrawList } from "./DrawList";
@@ -103,24 +103,29 @@ export default function DualList(props: DualListProps) {
           <Typography variant="body1" color="textPrimary">{props.title}</Typography>
         </Box>
         <Box pr={1}>
+          <Button color="primary" style={{ paddingLeft: 5, paddingRight: 5 }}>
+            {state.selectedList.length}
+          </Button>
+        </Box>
+        <Box pr={1}>
           <IconButton size="small" onClick={toggleSearch} color={searchFlag ? "primary" : "default"}>
             {props.searchIcon}
           </IconButton>
         </Box>
-        <Box pr={1}>
-          <Badge badgeContent={state.selectedList.length} color="primary" />
+      </Box>
+      <Collapse in={searchFlag}>
+        <Box pl={1} pr={1} pb={1} bgcolor="action.hover">
+          <TextField
+            size="small"
+            fullWidth
+            variant="filled"
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+            placeholder={props.searchPlaceholder}
+          />
         </Box>
-      </Box>
-      <Box pl={1} pr={1} pt={1} bgcolor="action.hover" hidden={!searchFlag}>
-        <TextField
-          size="small"
-          fullWidth
-          variant="filled"
-          value={search}
-          onChange={e => setSearch(e.target.value)}
-          placeholder={props.searchPlaceholder}
-        />
-      </Box>
+      </Collapse>
+
       <Box display="flex" flexDirection="row">
         <Box width={1 / 2}>
           <Box display="flex" justifyContent="center" bgcolor="action.hover">
