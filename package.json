@@ -1,6 +1,6 @@
 {
-  "name": "material_multi_select_list",
-  "version": "0.0.1",
+  "name": "materialduallist",
+  "version": "0.0.2",
   "private": false,
   "description": "> React multi select item from a (text , value) list",
   "main": "dist/index.js",
