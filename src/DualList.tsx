@@ -111,7 +111,7 @@ export default function DualList(props: DualListProps) {
           <Chip color="primary" label={state.selectedList.length} />
         </Box>
         <Box pr={1}>
-          <IconButton size="small" onClick={toggleSearch} color={searchFlag ? "primary" : "default"}>
+          <IconButton size="small" onClick={toggleSearch} color={searchFlag || search.trim() !== "" ? "primary" : "default"}>
             {props.searchIcon}
           </IconButton>
         </Box>
