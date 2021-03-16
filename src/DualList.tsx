@@ -26,7 +26,7 @@ function getItems(list: Array<IItem>, selectedList: Array<number>, search: strin
   if (selected) {
     return data.filter(item => selectedList.indexOf(item.value) !== -1)
   } else {
-    return data.filter(item => selectedList.indexOf(item.value) !== -1)
+    return data.filter(item => selectedList.indexOf(item.value) === -1)
   }
 
 }
