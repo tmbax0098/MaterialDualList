@@ -5,12 +5,12 @@ import {
   ButtonGroup,
   TextField,
   Box,
-  IconButton,
   Collapse,
   Chip,
   Typography,
   Tabs,
-  Tab
+  Tab,
+  Divider
 } from "@material-ui/core";
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { IItem } from "./IItem";
@@ -23,17 +23,16 @@ const useStyles = makeStyles((theme: Theme) =>
       fontSize: "small",
       fontWeight: "bold",
       textAlign: "center",
-      align: "center"
+      align: "center",
+      textTransform: 'none'
     },
     listHeaderBox: {
       display: "flex",
       justifyContent: "center",
       backgroundColor: "action.hover"
     },
-    boxButtonGroup: {
-      backgroundColor: "action.hover",
-      borderTop: 1,
-      borderColor: "divider"
+    button: {
+      textTransform: 'none'
     },
     boxTextField: {
       paddingLeft: theme.spacing(1),
@@ -48,8 +47,6 @@ const useStyles = makeStyles((theme: Theme) =>
     }
   }),
 );
-
-
 
 function getItems(list: Array<IItem>, selectedList: Array<number>, search: string, selected: boolean) {
 
@@ -69,6 +66,7 @@ function getItems(list: Array<IItem>, selectedList: Array<number>, search: strin
 }
 
 export type DualListProps = {
+  borderWidth: number,
   title: string,
   searchPlaceholder: string,
   searchIcon: any,
@@ -80,8 +78,8 @@ export type DualListProps = {
   buttonSelectAllText: string,
   buttonUnselectAllText: string,
 };
-
 DualList.propTypes = {
+  borderWidth: PropTypes.number,
   title: PropTypes.string,
   searchPlaceholder: PropTypes.string,
   searchIcon: PropTypes.any,
@@ -94,6 +92,7 @@ DualList.propTypes = {
   buttonUnselectAllText: PropTypes.string,
 };
 DualList.defaultProps = {
+  borderWidth: 1,
   title: "",
   searchPlaceholder: "search item",
   searchIcon: "S",
@@ -118,8 +117,8 @@ export default function DualList(props: DualListProps) {
   const toggleSearch = () => setSearchFlag(!searchFlag);
 
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
-    console.log(event);
     setValue(newValue);
+    event.preventDefault();
   };
 
   function emitChange() {
@@ -147,28 +146,36 @@ export default function DualList(props: DualListProps) {
   function unselectAll() {
     state.selectedList = [];
     refresh(state);
+    setValue(0);
   }
   function selectAll() {
     state.selectedList = state.sourceList.map(item => item.value);
     refresh(state);
+    setValue(1);
   }
 
 
   React.useEffect(emitChange, [state]);
 
   return (
-    <Box border={1} borderColor="divider">
+    <Box border={props.borderWidth} borderColor="divider">
       <Box display="flex" flexDirection="row" alignItems="center" bgcolor="action.hover" p={1}>
         <Box flexGrow={1}>
           <Typography variant="body1" color="textPrimary">{props.title}</Typography>
         </Box>
-        <Box pr={1}>
-          <Chip color="primary" label={state.selectedList.length} />
-        </Box>
-        <Box pr={1}>
-          <IconButton size="small" onClick={toggleSearch} color={searchFlag || search.trim() !== "" ? "primary" : "default"}>
-            {props.searchIcon}
-          </IconButton>
+        <Box>
+          <ButtonGroup
+            fullWidth
+            variant="text"
+            color="default"
+            size="small">
+            <Button className={classes.button} onClick={toggleSearch} color={searchFlag || search.trim() !== "" ? "primary" : "default"}>
+              {props.searchIcon}
+            </Button>
+            <Button className={classes.button} >
+              <Chip color="primary" label={state.selectedList.length} />
+            </Button>
+          </ButtonGroup>
         </Box>
       </Box>
       <Collapse in={searchFlag}>
@@ -183,6 +190,9 @@ export default function DualList(props: DualListProps) {
           />
         </Box>
       </Collapse>
+      <Collapse in={!searchFlag}>
+        <Divider />
+      </Collapse>
       <Box bgcolor="action.hover">
         <Tabs
           value={value}
@@ -191,8 +201,8 @@ export default function DualList(props: DualListProps) {
           textColor="primary"
           onChange={handleChange}
         >
-          <Tab label={props.sourceListTitle} className={classes.tab} />
-          <Tab label={props.selectedListTitle} className={classes.tab} />
+          <Tab label={props.sourceListTitle} className={classes.tab} disableFocusRipple disableRipple disableTouchRipple />
+          <Tab label={props.selectedListTitle} className={classes.tab} disableFocusRipple disableRipple disableTouchRipple />
         </Tabs>
       </Box>
       {
@@ -207,12 +217,16 @@ export default function DualList(props: DualListProps) {
             title={props.selectedListTitle} />
       }
 
-      <Box className={classes.boxButtonGroup}>
-        <ButtonGroup fullWidth variant="text" color="default" size="small">
-          <Button onClick={unselectAll}>
+      <Box borderTop={1} borderColor="divider" bgcolor="action.hover">
+        <ButtonGroup
+          fullWidth
+          variant="text"
+          color="inherit"
+          size="small">
+          <Button className={classes.button} onClick={unselectAll}>
             {props.buttonUnselectAllText}
           </Button>
-          <Button onClick={selectAll}>
+          <Button className={classes.button} onClick={selectAll}>
             {props.buttonSelectAllText}
           </Button>
         </ButtonGroup>
