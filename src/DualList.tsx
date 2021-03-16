@@ -172,7 +172,7 @@ export default function DualList(props: DualListProps) {
         </Box>
       </Box>
       <Collapse in={searchFlag}>
-        <Box className={classes.boxTextField}>
+        <Box className={classes.boxTextField} bgcolor="action.hover">
           <TextField
             fullWidth
             size="small"
@@ -183,7 +183,7 @@ export default function DualList(props: DualListProps) {
           />
         </Box>
       </Collapse>
-      <Box>
+      <Box bgcolor="action.hover">
         <Tabs
           value={value}
           variant="fullWidth"
@@ -191,12 +191,8 @@ export default function DualList(props: DualListProps) {
           textColor="primary"
           onChange={handleChange}
         >
-          <Tab className={classes.tab}>
-            {props.sourceListTitle}
-          </Tab>
-          <Tab className={classes.tab}>
-            {props.selectedListTitle}
-          </Tab>
+          <Tab label={props.sourceListTitle} className={classes.tab} />
+          <Tab label={props.selectedListTitle} className={classes.tab} />
         </Tabs>
       </Box>
       {
