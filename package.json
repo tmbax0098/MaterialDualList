@@ -2,7 +2,7 @@
   "name": "materialduallist",
   "version": "0.1.0",
   "private": false,
-  "description": "> React multi select item from a (text , value) list",
+  "description": "> React dual list component",
   "main": "dist/index.js",
   "directories": {
     "example": "example"
