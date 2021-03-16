@@ -140,7 +140,7 @@ export default function DualList(props: DualListProps) {
       </Collapse>
 
       <Box display="flex" flexDirection="row">
-        <Box width={1 / 2}>
+        <Box width={1 / 2} borderRight={1} borderColor="divider">
           <Box display="flex" justifyContent="center" bgcolor="action.hover">
             <Typography align="center">{props.sourceListTitle}</Typography>
           </Box>
