@@ -94,7 +94,7 @@ export default function DualList(props: DualListProps) {
   function moveToSourceList(item: IItem) {
     let index = state.selectedList.indexOf(item.value);
     if (index !== -1) {
-      state.selectedList.slice(index, 1);
+      state.selectedList.splice(index, 1);
     }
     refresh(state);
 
