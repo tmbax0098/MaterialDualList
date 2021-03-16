@@ -29,7 +29,7 @@ export function Item(props: ItemProps) {
 
   const classes = useStyles();
 
-  return (<ListItem className={classes.listItem}>
+  return (<ListItem button className={classes.listItem}>
     <ListItemText
       primary={props.text}
       primaryTypographyProps={{

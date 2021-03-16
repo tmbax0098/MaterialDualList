@@ -129,8 +129,8 @@ export default function DualList(props: DualListProps) {
       <Collapse in={searchFlag}>
         <Box pl={1} pr={1} pb={1} bgcolor="action.hover">
           <TextField
-            size="small"
             fullWidth
+            size="small"
             variant="filled"
             value={search}
             onChange={e => setSearch(e.target.value)}
