@@ -19,7 +19,7 @@ import { DrawList } from "./DrawList";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    listHeader: {
+    tab: {
       fontSize: "small",
       fontWeight: "bold",
       textAlign: "center",
@@ -186,16 +186,16 @@ export default function DualList(props: DualListProps) {
       <Box>
         <Tabs
           value={value}
+          variant="fullWidth"
           indicatorColor="primary"
           textColor="primary"
           onChange={handleChange}
-          aria-label="disabled tabs example"
         >
-          <Tab>
-            <Typography className={classes.listHeader}>{props.sourceListTitle}</Typography>
+          <Tab className={classes.tab}>
+            {props.sourceListTitle}
           </Tab>
-          <Tab>
-            <Typography className={classes.listHeader}>{props.selectedListTitle}</Typography>
+          <Tab className={classes.tab}>
+            {props.selectedListTitle}
           </Tab>
         </Tabs>
       </Box>
