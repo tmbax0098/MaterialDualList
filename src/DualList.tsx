@@ -7,11 +7,48 @@ import {
   Box,
   IconButton,
   Collapse,
-  Chip
+  Chip,
+  Typography,
+  Tabs,
+  Tab
 } from "@material-ui/core";
+import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { IItem } from "./IItem";
 import { DrawList } from "./DrawList";
-import { Typography } from '@material-ui/core';
+
+
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    listHeader: {
+      fontSize: "small",
+      fontWeight: "bold",
+      textAlign: "center",
+      align: "center"
+    },
+    listHeaderBox: {
+      display: "flex",
+      justifyContent: "center",
+      backgroundColor: "action.hover"
+    },
+    boxButtonGroup: {
+      backgroundColor: "action.hover",
+      borderTop: 1,
+      borderColor: "divider"
+    },
+    boxTextField: {
+      paddingLeft: theme.spacing(1),
+      paddingRight: theme.spacing(1),
+      paddingBottom: theme.spacing(1),
+      backgroundColor: "action.hover"
+    },
+    listBox: {
+      minHeight: 200,
+      height: 200,
+      overflow: "auto"
+    }
+  }),
+);
+
 
 
 function getItems(list: Array<IItem>, selectedList: Array<number>, search: string, selected: boolean) {
@@ -71,11 +108,19 @@ DualList.defaultProps = {
 
 export default function DualList(props: DualListProps) {
 
+  const classes = useStyles();
+
   const [state, setState] = React.useState({ ...props });
   const [search, setSearch] = React.useState("");
   const [searchFlag, setSearchFlag] = React.useState(false);
+  const [value, setValue] = React.useState(0);
 
   const toggleSearch = () => setSearchFlag(!searchFlag);
+
+  const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
+    console.log(event);
+    setValue(newValue);
+  };
 
   function emitChange() {
     if (JSON.stringify(state.selectedList) !== JSON.stringify(props.selectedList)) {
@@ -127,7 +172,7 @@ export default function DualList(props: DualListProps) {
         </Box>
       </Box>
       <Collapse in={searchFlag}>
-        <Box pl={1} pr={1} pb={1} bgcolor="action.hover">
+        <Box className={classes.boxTextField}>
           <TextField
             fullWidth
             size="small"
@@ -138,28 +183,35 @@ export default function DualList(props: DualListProps) {
           />
         </Box>
       </Collapse>
-
-      <Box display="flex" flexDirection="row">
-        <Box width={1 / 2} borderRight={1} borderColor="divider">
-          <Box display="flex" justifyContent="center" bgcolor="action.hover">
-            <Typography align="center">{props.sourceListTitle}</Typography>
-          </Box>
+      <Box>
+        <Tabs
+          value={value}
+          indicatorColor="primary"
+          textColor="primary"
+          onChange={handleChange}
+          aria-label="disabled tabs example"
+        >
+          <Tab>
+            <Typography className={classes.listHeader}>{props.sourceListTitle}</Typography>
+          </Tab>
+          <Tab>
+            <Typography className={classes.listHeader}>{props.selectedListTitle}</Typography>
+          </Tab>
+        </Tabs>
+      </Box>
+      {
+        value === 0 ?
           <DrawList
             list={getItems(props.sourceList, state.selectedList, search, false)}
             moveOne={moveToSelectedList}
-            title={props.sourceListTitle} />
-        </Box>
-        <Box width={1 / 2}>
-          <Box display="flex" justifyContent="center" bgcolor="action.hover">
-            <Typography align="center">{props.selectedListTitle}</Typography>
-          </Box>
+            title={props.sourceListTitle} /> :
           <DrawList
             list={getItems(props.sourceList, state.selectedList, search, true)}
             moveOne={moveToSourceList}
             title={props.selectedListTitle} />
-        </Box>
-      </Box>
-      <Box bgcolor="action.hover" borderTop={1} borderColor="divider">
+      }
+
+      <Box className={classes.boxButtonGroup}>
         <ButtonGroup fullWidth variant="text" color="default" size="small">
           <Button onClick={unselectAll}>
             {props.buttonUnselectAllText}
