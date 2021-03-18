@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export type DrawListProps = {
   list: Array<IItem>,
-  moveOne: never,
+  moveOne: any,
   title: string
 }
 
@@ -54,6 +54,6 @@ DrawList.propTypes = {
 };
 DrawList.propTypes = {
   list: [],
-  moveOne: () => [],
+  moveOne: (item: IItem) => { console.log(item) },
   title: ""
 };
