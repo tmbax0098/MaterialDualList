@@ -54,6 +54,5 @@ DrawList.propTypes = {
 };
 DrawList.propTypes = {
   list: [],
-  moveOne: (item: IItem) => { console.log(item) },
   title: ""
 };
