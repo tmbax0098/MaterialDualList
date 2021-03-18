@@ -205,6 +205,9 @@ export default function DualList(props: DualListProps) {
           <Tab label={props.selectedListTitle} className={classes.tab} disableFocusRipple disableRipple disableTouchRipple />
         </Tabs>
       </Box>
+      <Collapse in={!searchFlag}>
+        <Divider />
+      </Collapse>
       {
         value === 0 ?
           <DrawList
