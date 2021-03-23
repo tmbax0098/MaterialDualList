@@ -109,53 +109,48 @@ export default function DualList(props: DualListProps) {
 
   const classes = useStyles();
 
-  const [state, setState] = React.useState({ ...props });
+  const [selectedList, setSelectedList] = React.useState<Array<number>>(props.selectedList);
   const [search, setSearch] = React.useState("");
   const [searchFlag, setSearchFlag] = React.useState(false);
   const [value, setValue] = React.useState(0);
 
   const toggleSearch = () => setSearchFlag(!searchFlag);
-
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setValue(newValue);
     event.preventDefault();
   };
-
   function emitChange() {
-    if (JSON.stringify(state.selectedList) !== JSON.stringify(props.selectedList)) {
+    if (JSON.stringify(selectedList) !== JSON.stringify(props.selectedList)) {
       if (typeof props.onChange === "function") {
-        props.onChange(state.selectedList);
+        props.onChange(selectedList);
       }
     }
   }
-  function refresh(newState = {}) {
-    setState({ ...state, ...newState });
-  }
+  function refresh(newState: Array<number> = []) {
+    setSelectedList([...newState]);
+  };
   function moveToSelectedList(item: IItem) {
-    state.selectedList.push(item.value);
-    refresh(state);
-  }
+    selectedList.push(item.value);
+    refresh(selectedList);
+  };
   function moveToSourceList(item: IItem) {
-    let index = state.selectedList.indexOf(item.value);
+    let index = selectedList.indexOf(item.value);
     if (index !== -1) {
-      state.selectedList.splice(index, 1);
+      selectedList.splice(index, 1);
     }
-    refresh(state);
-
+    refresh(selectedList);
   }
   function unselectAll() {
-    state.selectedList = [];
-    refresh(state);
+    refresh([]);
     setValue(0);
   }
   function selectAll() {
-    state.selectedList = state.sourceList.map(item => item.value);
-    refresh(state);
+    refresh(props.sourceList.map(item => item.value));
     setValue(1);
   }
 
 
-  React.useEffect(emitChange, [state]);
+  React.useEffect(emitChange, [selectedList]);
 
   return (
     <Box border={props.borderWidth} borderColor="divider">
@@ -173,7 +168,7 @@ export default function DualList(props: DualListProps) {
               {props.searchIcon}
             </Button>
             <Button className={classes.button} >
-              <Chip color="primary" label={state.selectedList.length} />
+              <Chip color="primary" label={selectedList.length} />
             </Button>
           </ButtonGroup>
         </Box>
@@ -211,11 +206,11 @@ export default function DualList(props: DualListProps) {
       {
         value === 0 ?
           <DrawList
-            list={getItems(props.sourceList, state.selectedList, search, false)}
+            list={getItems(props.sourceList, selectedList, search, false)}
             moveOne={moveToSelectedList}
             title={props.sourceListTitle} /> :
           <DrawList
-            list={getItems(props.sourceList, state.selectedList, search, true)}
+            list={getItems(props.sourceList, selectedList, search, true)}
             moveOne={moveToSourceList}
             title={props.selectedListTitle} />
       }
@@ -237,5 +232,3 @@ export default function DualList(props: DualListProps) {
     </Box>
   );
 }
-
-
