@@ -54,6 +54,5 @@ DrawList.propTypes = {
 };
 DrawList.propTypes = {
   list: [],
-  moveOne: () => [],
   title: ""
 };
