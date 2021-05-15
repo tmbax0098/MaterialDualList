@@ -1,6 +1,6 @@
 {
   "name": "materialduallist",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "private": false,
   "description": "> React dual list component",
   "main": "dist/index.js",
@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/tmbax0098/material_multi_select_list.git"
+    "url": "git+https://github.com/tmbax0098/MaterialDualList.git"
   },
   "keywords": [
     "dual list",
@@ -22,12 +22,12 @@
     "react",
     "react-component"
   ],
-  "author": "KaterinaLupacheva",
+  "author": "Koorosh Heydari rad",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/tmbax0098/material_multi_select_list/issues"
+    "url": "https://github.com/tmbax0098/MaterialDualList/issues"
   },
-  "homepage": "https://github.com/tmbax0098/material_multi_select_list",
+  "homepage": "https://github.com/tmbax0098/MaterialDualList",
   "peerDependencies": {
     "react": "^16.0.0",
     "react-dom": "^16.0.0"
